@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+    const isObject = (val) => {
+      return val !== null && typeof val === "object";
+    };
+    const isArray = Array.isArray;
+    const isString = (val) => {
+      return typeof val === "string";
+    };
+
+    function normalizeClass(value) {
+      let res = "";
+      if (isString(value)) {
+        res = value;
+      } else if (isArray(value)) {
+        for (let i = 0; i < value.length; i++) {
+          const normalized = normalizeClass(value[i]);
+          if (normalized) {
+            res += normalized + " ";
+          }
+        }
+      } else if (isObject(value)) {
+        for (const name in value) {
+          if (value[name]) {
+            res += name + " ";
+          }
+        }
+      }
+      return res.trim();
+    }
+    const options = {
+      createElement(tag) {
+        return document.createElement(tag);
+      },
+      // 用于设置元素的文本节点
+      setElementText(el, text) {
+        el.textContent = text;
+      },
+      // 用于在给定的 parent 下添加指定元素
+      insert(el, parent, anchor = null) {
+        parent.insertBefore(el, anchor);
+      },
+      patchProps(el, key, preValue, nextValue) {
+        if (shouldSetAsProps(el, key, nextValue)) {
+          // 判断该DOM Properties的类型
+          const type = typeof el[key];
+
+          // 如果是布尔类型，并且value是空字符串'',那么就是设置为true
+          if (type === "boolean" && nextValue === "") {
+            el[key] = true;
+          } else {
+            el[key] = nextValue;
+          }
+        } else {
+          // 如果key不存在在DOM Properties上，那么就是setAttribute
+          el.setAttribute(key, nextValue);
+        }
+      },
+    };
+
+    function shouldSetAsProps(el, key, value) {
+      // 特殊处理
+      if (key === "form" && el.tagName === "INPUT") return false;
+      // 判断属性是否在el上，返回true表示是el上的属性
+      return key in el;
+    }
+
+    function createRenderer(options) {
+      // 通过 options 得到操作 DOM 的 API
+      const { createElement, insert, setElementText, patchProps } = options;
+
+      function render(vnode, container) {
+        if (vnode) {
+          // 如果新vnode存在，将其与旧vnode一起传递给patch函数，进行更新(打补丁)
+          patch(container._vnode, vnode, container);
+        } else {
+          if (container._vnode) {
+            unmount(container._vnode);
+          }
+        }
+
+        // 将vnode存储到container._vnode下，在后续的渲染中代表旧的vnode
+        container._vnode = vnode;
+      }
+      // 可能会用到的其他函数
+      function patch(oldVNode, newVNode, container) {
+        if (oldVNode && oldVNode.type !== newVNode.type) {
+          // 如果新旧 vnode 的类型不同，则直接将旧 vnode 卸载
+          unmount(oldVNode)
+          oldVNode = null
+        }
+        const { type } = newVNode;
+        // 如果类型是字符串，说明描述的是普通标签
+        if(typeof type === 'string'){
+          // 如果旧节点不存在，就意味着是挂载，调用mountElement函数完成挂载
+          if (!oldVNode) {
+            mountElement(newVNode, container);
+          } else {
+            // 如果oldVNode存在，意味着更新，暂时省略......
+            console.log("打补丁");
+          }
+        }
+        else if(typeof type === 'object'){
+          // todo:组件
+          console.log("组件处理");
+        }
+        else{
+          // todo:未知类型
+          console.log("未知类型");
+        }
+      }
+
+      function unmount(vnode) {
+        const parent = vnode.el.parentNode;
+        if (parent) {
+          parent.removeChild(vnode.el);
+        }
+      }
+
+      function mountElement(vnode, container) {
+        // 创建 DOM 元素
+        const el = (vnode.el = createElement(vnode.type));
+        if (typeof vnode.children === "string") {
+          // 如果子节点是字符串，说明它是文本节点
+          setElementText(el, vnode.children);
+        } else if (Array.isArray(vnode.children)) {
+          vnode.children.forEach((child) => {
+            patch(null, child, el);
+          });
+        }
+
+        if (vnode.props) {
+          for (const key in vnode.props) {
+            const value = vnode.props[key];
+            patchProps(el, key, null, value);
+          }
+        }
+
+        insert(el, container);
+      }
+
+      return {
+        render,
+        // ......其他函数
+      };
+    }
+
+    const clsArr1 =  ['btn', 'btn-primary', { baz: true }]
+    const vnode1 = {
+      type: 'button',
+      props: {
+        disabled: false,
+        class: normalizeClass(clsArr1),
+      },
+      children: 'click me'
+    }
+
+    const clsArr2 =  ['div', 'div-primary']
+    const vnode2 = {
+      type: 'div',
+      props: {
+        class: normalizeClass(clsArr2),
+      },
+      children: [
+        {
+          type: 'p',
+          children: 'Hello World1'
+        },
+        {
+          type: 'p',
+          children: 'Hello World2'
+        }
+      ]
+    }
+
+    const renderer = createRenderer(options);
+    renderer.render(vnode1, document.getElementById('app'));
+    setTimeout(()=>{
+      renderer.render(vnode2, document.getElementById('app'));
+    },1000)
+    
+
+    
+  </script>
+</html>

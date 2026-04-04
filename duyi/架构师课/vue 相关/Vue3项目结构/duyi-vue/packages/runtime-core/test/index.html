@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script src="../dist/runtime-core.global.js"></script>
+  <script >
+    const {options, createRenderer} = VueRuntimeCore;
+
+    const oldVNode = {
+      type: "div",
+      children: [
+        { type: "p", children: "1", key: 1 },
+        { type: "p", children: "2", key: 2 },
+        { type: "p", children: "3", key: 3 },
+        { type: "p", children: "4", key: 4 },
+        { type: "p", children: "6", key: 6 },
+        { type: "p", children: "5", key: 5 },
+      ],
+    };
+
+    const newVNode = {
+      type: "div",
+      children: [
+        { type: "p", children: "1", key: 1 },
+        { type: "p", children: "3", key: 3 },
+        { type: "p", children: "4", key: 4 },
+        { type: "p", children: "2", key: 2 },
+        { type: "p", children: "7", key: 7 },
+        { type: "p", children: "5", key: 5 },
+      ],
+    };
+
+    const nodeOps = options;
+
+    const renderer = createRenderer(nodeOps);
+    // 首次挂载
+    renderer.render(oldVNode, document.getElementById("app"));
+
+    // 1秒后更新
+    setTimeout(() => {
+      renderer.render(newVNode, document.getElementById("app"));
+    }, 1000);
+  </script>
+</html>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户管理系统</title>
+  </head>
+  <body>
+    <!--app-teleports-->
+    <div id="app"><!--ssr-outlet--></div>
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/entry/client-entry.js"></script>
+    <script>
+      // 服务端获取的数据统一挂载到window上
+      window.__INITIAL_STATE__ = '<!--pinia-state-->'
+    </script>
+  </body>
+</html>

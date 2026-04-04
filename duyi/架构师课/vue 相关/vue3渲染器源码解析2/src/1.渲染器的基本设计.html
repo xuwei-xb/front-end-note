@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<body>
+
+  <div id="app"></div>
+
+</body>
+<script>
+
+// 和Dom相关的操作
+const options = {
+  createElement(tag) {
+    return document.createElement(tag)
+  },
+  // 用于设置元素的文本节点
+  setElementText(el, text) {
+    el.textContent = text
+  },
+  // 用于在给定的 parent 下添加指定元素
+  insert(el, parent, anchor = null) {
+    parent.insertBefore(el, anchor)
+  }
+}
+
+function createRenderer(options) {
+  // 通过 options 得到操作 DOM 的 API
+	const {
+		createElement,
+		insert,
+		setElementText
+	} = options
+
+  function render(vnode, container){
+    if(vnode){
+      // 如果新vnode存在，将其与旧vnode一起传递给patch函数，进行更新(打补丁)
+      patch(container._vnode, vnode, container)
+    }
+    else{
+      if(container._vnode){
+        // 旧vnode存在，但是新vnode不存在，证明是卸载(unmount)操作
+        // 只需要将container内的DOM清空即可
+        container.innerHTML = '';
+      }
+    }
+    
+    // 将vnode存储到container._vnode下，在后续的渲染中代表旧的vnode
+    container._vnode = vnode
+  }
+  // 可能会用到的其他函数
+  function patch(oldVNode, newVNode, container){
+    // 如果旧节点不存在，就意味着是挂载，调用mountElement函数完成挂载
+    if(!oldVNode){
+      mountElement(newVNode, container)
+    }
+    else{
+      // 如果oldVNode存在，意味着更新，暂时省略......
+    }
+  }
+
+  function mountElement(vnode, container){
+    // 创建 DOM 元素
+    const el = createElement(vnode.type)
+    if(typeof vnode.children === 'string'){
+      // 如果子节点是字符串，说明它是文本节点
+      setElementText(el, vnode.children);
+    }
+    
+    insert(el,container);
+  }
+
+  return {
+    render,
+    // ......其他函数
+  };
+}
+
+const vnode = {
+  type: 'h1',
+  children: `hello world`
+}
+
+const renderer = createRenderer(options);
+
+renderer.render(vnode, document.getElementById('app'));
+</script>
+</html>

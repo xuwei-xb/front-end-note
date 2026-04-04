@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7.进出问题</title>
+  </head>
+  <body>
+    <script>
+      // HTML模板字符串
+      const template = `<div><p>Vue</p><p>React</p></div>`;
+
+      // 定义不同的解析状态
+      const State = {
+        initial: 1, // 初始状态
+        tagOpen: 2, // 标签开始的状态，例如遇到 '<'
+        tagName: 3, // 解析标签名称的状态
+        text: 4, // 文本节点的状态
+        tagEnd: 5, // 结束标签的初始状态，例如遇到 '</'
+        tagEndName: 6, // 解析结束标签名称的状态
+      };
+
+      // 判断字符是否为字母
+      function isAlpha(char) {
+        return (char >= "a" && char <= "z") || (char >= "A" && char <= "Z");
+      }
+
+      // 令牌化函数，将HTML字符串转换为令牌
+      function tokenize(str) {
+        let currentState = State.initial; // 初始状态
+        const chars = []; // 用于存储字符
+        const tokens = []; // 存储生成的令牌
+
+        // 循环处理字符串中的每个字符
+        while (str) {
+          const char = str[0]; // 获取当前字符
+          switch (currentState) {
+            case State.initial:
+              // 初始状态：检查当前字符
+              if (char === "<") {
+                currentState = State.tagOpen; // 如果字符是 '<'，表示标签开始
+                str = str.slice(1); // 移除已处理的字符
+              } else if (isAlpha(char)) {
+                currentState = State.text; // 如果是字母，表示文本开始
+                chars.push(char); // 将字符添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagOpen:
+              // 标签开启状态：检查当前字符
+              if (isAlpha(char)) {
+                currentState = State.tagName; // 如果是字母，表示进入标签名称状态
+                chars.push(char); // 将字符添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === "/") {
+                currentState = State.tagEnd; // 如果字符是 '/'，表示结束标签开始
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagName:
+              // 解析标签名称状态：检查当前字符
+              if (isAlpha(char)) {
+                chars.push(char); // 如果是字母，继续添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === ">") {
+                currentState = State.initial; // 如果字符是 '>'，标签名称结束，返回初始状态
+                tokens.push({ type: "tag", name: chars.join("") }); // 创建标签类型的token
+                chars.length = 0; // 清空chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.text:
+              // 解析文本节点状态：检查当前字符
+              if (isAlpha(char)) {
+                chars.push(char); // 如果是字母，继续添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === "<") {
+                currentState = State.tagOpen; // 如果字符是 '<'，表示遇到新的标签，返回标签开启状态
+                tokens.push({ type: "text", content: chars.join("") }); // 创建文本类型的token
+                chars.length = 0; // 清空chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagEnd:
+              // 结束标签的开始状态：检查当前字符
+              if (isAlpha(char)) {
+                currentState = State.tagEndName; // 如果是字母，表示进入结束标签名称状态
+                chars.push(char); // 将字符添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagEndName:
+              // 解析结束标签名称状态：检查当前字符
+              if (isAlpha(char)) {
+                chars.push(char); // 如果是字母，继续添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === ">") {
+                currentState = State.initial; // 如果字符是 '>'，结束标签名称结束，返回初始状态
+                tokens.push({ type: "tagEnd", name: chars.join("") }); // 创建结束标签类型的token
+                chars.length = 0; // 清空chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+          }
+        }
+
+        // 返回生成的令牌列表
+        return tokens;
+      }
+
+      // 解析函数，将 HTML 字符串转换为 AST
+      function parse(str) {
+        // 使用tokenize函数将字符串转换为令牌
+        const tokens = tokenize(str);
+
+        // 创建一个根节点对象，用于存储解析后的HTML结构
+        const root = {
+          type: "Root",
+          children: [],
+        };
+        // 使用一个栈来跟踪当前处理的元素节点
+        const elementStack = [root];
+
+        // 当仍有令牌时，继续处理
+        while (tokens.length) {
+          // 获取当前的父元素（栈顶元素）
+          const parent = elementStack[elementStack.length - 1];
+          // 获取当前要处理的令牌
+          const t = tokens[0];
+          // 根据令牌类型处理不同情况
+          switch (t.type) {
+            case "tag":
+              // 如果是开始标签，创建一个新的元素节点
+              const elementNode = {
+                type: "Element",
+                tag: t.name,
+                children: [],
+              };
+              // 将新节点添加到父元素的子节点中
+              parent.children.push(elementNode);
+              // 将新节点压入栈中，成为下一个父节点
+              elementStack.push(elementNode);
+              break;
+            case "text":
+              // 如果是文本，创建一个文本节点
+              const textNode = {
+                type: "Text",
+                content: t.content,
+              };
+              // 将文本节点添加到当前父元素的子节点中
+              parent.children.push(textNode);
+              break;
+            case "tagEnd":
+              // 如果是结束标签，从栈中弹出当前处理的元素
+              elementStack.pop();
+              break;
+          }
+          // 移除已处理的令牌
+          tokens.shift();
+        }
+
+        // 返回解析后的根节点，它包含了整个HTML结构
+        return root;
+      }
+
+      function dump(node, indent = 0) {
+        // 获取当前节点的类型
+        const type = node.type;
+        // 根据节点类型构建描述信息
+        // 对于根节点，描述为空；对于元素节点，使用标签名；对于文本节点，使用内容
+        const desc =
+          node.type === "Root"
+            ? ""
+            : node.type === "Element"
+            ? node.tag
+            : node.content;
+
+        // 打印当前节点信息，包括类型和描述
+        // 使用重复的"-"字符来表示缩进（层级）
+        console.log(`${"-".repeat(indent)}${type}: ${desc}`);
+
+        // 如果当前节点有子节点，递归调用dump函数打印每个子节点
+        if (node.children) {
+          node.children.forEach((n) => dump(n, indent + 2));
+        }
+      }
+      // 得到模板的 AST
+      const ast = parse(template);
+
+      function transformElement(node) {
+        // if (node.type === "Element" && node.tag === "p") {
+        //   node.tag = "h1"; // 如果是，则将标签名从"p"改为"h1"
+        // }
+      }
+
+      function transformText(node, context) {
+        // if (node.type === "Text") {
+        //   node.content = node.content.toUpperCase(); // 如果是文本节点，则将文本内容转换为大写
+        // }
+        // 测试替换
+        // if (node.type === "Text") {
+        //   context.replaceNode({
+        //     type: "Element",
+        //     tag: "span",
+        //   });
+        // }
+
+        // 当然也可以用下面的形式，但是这样的方式是在原来的节点的基础上进行的修改
+        // 并非替换
+        // 而上面是直接替换了
+        // if (node.type === "Text") {
+        //   node.type = "Element";
+        //   node.tag = "span";
+        // }
+
+        // 测试删除
+        // if (node.type === "Text" && node.content === "React") {
+        //   context.removeNode();
+        // }
+
+        return () => {
+          console.log(
+            "可以再次处理节点：",
+            node.type,
+            node.tag || node.content
+          );
+        };
+      }
+
+      function traverseNode(ast, context) {
+        console.log("处理节点：", ast.type, ast.tag || ast.content);
+
+        // 获取当前节点
+        context.currentNode = ast;
+
+        // 对节点的访问分为两个阶段，即进入阶段和退出阶段。
+        // 当转换函数处于进入阶段时，它会先进入父节点，再进入子节点。
+        // 而当转换函数处于退出阶段时，则会先退出子节点，再退出父节点。
+        // 这样，只要我们在退出节点阶段对当前访问的节点进行处理
+        // 就一定能够保证其子节点全部处理完毕。
+
+        // 1. 增加退出阶段的回调函数数组
+        const exitFns = [];
+        // 拿到转换方法的数组
+        const transforms = context.nodeTransforms;
+        // 遍历数组中的每个转换方法
+        for (let i = 0; i < transforms.length; i++) {
+          // 2. 转换函数可以返回另外一个函数，该函数作为退出阶段的回调函数
+          const onExit = transforms[i](context.currentNode, context);
+          if (onExit) {
+            // 将转换函数的返回值（回调函数）推入到 exitFns 数组里面
+            exitFns.push(onExit);
+          }
+          // 由于任何转换函数都可能移除当前节点，因此每个转换函数执行完毕后，
+          // 都应该检查当前节点是否已经被移除，如果被移除了，直接返回即可
+          if (!context.currentNode) return;
+        }
+
+        // 获取当前节点的子节点
+        const children = context.currentNode.children;
+        if (children) {
+          // 如果当前节点有子节点，遍历它们
+          for (let i = 0; i < children.length; i++) {
+            // 更新当前上下文中的 parent 父节点，当前节点应该成为下一次的父节点
+            context.parent = context.currentNode;
+            // 另外索引也需要更新
+            context.childIndex = i;
+            // 递归调用traverseNode函数来处理每个子节点
+            traverseNode(children[i], context);
+          }
+        }
+
+        // 3. 在节点处理的最后阶段执行缓存在 exitFns 中的回调函数
+        let i = exitFns.length;
+        while (i--) {
+          exitFns[i]();
+        }
+      }
+
+      function transform(ast) {
+        const context = {
+          // 用于存储当前正在转换的节点
+          currentNode: null,
+          // 用于存储当前正在转换的子节点在父节点的 children 数组中的索引
+          childIndex: 0,
+          // 用于存储当前正在转换的父节点
+          parent: null,
+          // 新增替换节点的方法
+          replaceNode(node) {
+            // 找到当前节点在父节点的 children 中的位置，并将其替换为新节点
+            context.parent.children[context.childIndex] = node;
+            // 由于当前节点已经被新节点替换掉了，因此我们需要将 currentNode 也更新为新节点
+            context.currentNode = node;
+          },
+          // 新增删除节点方法
+          removeNode() {
+            if (context.parent) {
+              // 调用数组的 splice，根据当前节点的索引删除当前节点
+              context.parent.children.splice(context.childIndex, 1);
+              // 将 context.currentNode 置为 null，因为当前节点已经被删除了
+              context.currentNode = null;
+            }
+          },
+          // 用于存储具体的转换函数
+          nodeTransforms: [transformElement, transformText],
+        };
+        // 调用traverseNode函数来遍历和转换AST
+        traverseNode(ast, context);
+        // 打印转换后的AST结构
+        // console.log(dump(ast));
+      }
+
+      transform(ast);
+    </script>
+  </body>
+</html>

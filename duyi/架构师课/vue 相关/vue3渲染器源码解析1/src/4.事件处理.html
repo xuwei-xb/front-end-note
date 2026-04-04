@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+    const isObject = (val) => {
+      return val !== null && typeof val === "object";
+    };
+    const isArray = Array.isArray;
+    const isString = (val) => {
+      return typeof val === "string";
+    };
+
+    const onRE = /^on[^a-z]/;
+    const isOn = (key) => onRE.test(key);
+    function normalizeClass(value) {
+      let res = "";
+      if (isString(value)) {
+        res = value;
+      } else if (isArray(value)) {
+        for (let i = 0; i < value.length; i++) {
+          const normalized = normalizeClass(value[i]);
+          if (normalized) {
+            res += normalized + " ";
+          }
+        }
+      } else if (isObject(value)) {
+        for (const name in value) {
+          if (value[name]) {
+            res += name + " ";
+          }
+        }
+      }
+      return res.trim();
+    }
+    const options = {
+      createElement(tag) {
+        return document.createElement(tag);
+      },
+      // 用于设置元素的文本节点
+      setElementText(el, text) {
+        el.textContent = text;
+      },
+      // 用于在给定的 parent 下添加指定元素
+      insert(el, parent, anchor = null) {
+        parent.insertBefore(el, anchor);
+      },
+      patchProps(el, key, prevValue, nextValue) {
+        if (isOn(key)) {
+          const eventName = key.slice(2).toLowerCase();
+          // 定义el._vei为一个对象，这样就很方便的做到事件名称和对应函数的映射
+          const invokers = el._vei || (el._vei = {});
+          // 根据事件名称获取对应的函数
+          let invoker = invokers[key];
+
+          if (nextValue) {
+            if (!invoker) {
+              // 如果没有invoker，将一个伪造的invoker缓存到el._vei中
+              invoker = el._vei[key] = (e) => {
+                if (Array.isArray(invoker.value)) {
+                  invoker.value.forEach((fn) => fn(e));
+                } else {
+                  invoker.value(e);
+                }
+              };
+              // 将事件赋值给内部真正执行的invoker.value函数
+              invoker.value = nextValue;
+              // 和事件绑定的是外部的invoker
+              el.addEventListener(eventName, invoker);
+            } else {
+              // 如果invoker存在，说明是更新，直接给内部的invoker.value重新赋值即可
+              invoker.value = nextValue;
+            }
+          } else if (invoker) {
+            el.removeEventListener(eventName, invoker);
+          }
+        } else if (shouldSetAsProps(el, key, nextValue)) {
+          // 判断该DOM Properties的类型
+          const type = typeof el[key];
+
+          // 如果是布尔类型，并且value是空字符串'',那么就是设置为true
+          if (type === "boolean" && nextValue === "") {
+            el[key] = true;
+          } else {
+            el[key] = nextValue;
+          }
+        } else {
+          // 如果key不存在在DOM Properties上，那么就是setAttribute
+          el.setAttribute(key, nextValue);
+        }
+      },
+    };
+
+    function shouldSetAsProps(el, key, value) {
+      // 特殊处理
+      if (key === "form" && el.tagName === "INPUT") return false;
+      // 判断属性是否在el上，返回true表示是el上的属性
+      return key in el;
+    }
+
+    function createRenderer(options) {
+      // 通过 options 得到操作 DOM 的 API
+      const { createElement, insert, setElementText, patchProps } = options;
+
+      function render(vnode, container) {
+        if (vnode) {
+          // 如果新vnode存在，将其与旧vnode一起传递给patch函数，进行更新(打补丁)
+          patch(container._vnode, vnode, container);
+        } else {
+          if (container._vnode) {
+            unmount(container._vnode);
+          }
+        }
+
+        // 将vnode存储到container._vnode下，在后续的渲染中代表旧的vnode
+        container._vnode = vnode;
+      }
+      // 可能会用到的其他函数
+      function patch(oldVNode, newVNode, container) {
+        if (oldVNode && oldVNode.type !== newVNode.type) {
+          // 如果新旧 vnode 的类型不同，则直接将旧 vnode 卸载
+          unmount(oldVNode);
+          oldVNode = null;
+        }
+        const { type } = newVNode;
+        // 如果类型是字符串，说明描述的是普通标签
+        if (typeof type === "string") {
+          // 如果旧节点不存在，就意味着是挂载，调用mountElement函数完成挂载
+          if (!oldVNode) {
+            mountElement(newVNode, container);
+          } else {
+            // 如果oldVNode存在，意味着更新，暂时省略......
+            console.log("打补丁");
+            patchElement(oldVNode, newVNode);
+          }
+        } else if (typeof type === "object") {
+          // todo:组件
+          console.log("组件处理");
+        } else {
+          // todo:未知类型
+          console.log("未知类型");
+        }
+      }
+      function patchElement(oldVNode, newVNode) {
+        const el = (newVNode.el = oldVNode.el),
+          oldProps = oldVNode.props,
+          newProps = newVNode.props;
+        // 更新Props，如果新的虚拟节点和旧的虚拟节点中属性不一样，进行替换
+        for (const key in newProps) {
+          if (newProps[key] !== oldProps[key]) {
+            patchProps(el, key, oldProps[key], newProps[key]);
+          }
+        }
+        // 如果旧节点中的属性，新节点中没有，将属性值设置为null
+        for (const key in oldProps) {
+          if (!(key in newProps)) {
+            patchProps(el, key, oldProps[key], null);
+          }
+        }
+        // 还会涉及到子节点的处理，暂时省略......
+      }
+
+      function unmount(vnode) {
+        const parent = vnode.el.parentNode;
+        if (parent) {
+          parent.removeChild(vnode.el);
+        }
+      }
+
+      function mountElement(vnode, container) {
+        // 创建 DOM 元素
+        const el = (vnode.el = createElement(vnode.type));
+        if (typeof vnode.children === "string") {
+          // 如果子节点是字符串，说明它是文本节点
+          setElementText(el, vnode.children);
+        } else if (Array.isArray(vnode.children)) {
+          vnode.children.forEach((child) => {
+            patch(null, child, el);
+          });
+        }
+
+        if (vnode.props) {
+          for (const key in vnode.props) {
+            const value = vnode.props[key];
+            patchProps(el, key, null, value);
+          }
+        }
+
+        insert(el, container);
+      }
+
+      return {
+        render,
+        // ......其他函数
+      };
+    }
+
+//     const vnode1 = {
+//   type: 'button',
+//   props: {
+//     id:1,
+//     onClick:() => {
+//       alert('click1')
+//     }
+//   },
+//   children: 'click me'
+// }
+
+// const vnode2 = {
+//   type: 'button',
+//   props: {
+//     onClick:() => {
+//       alert('click2')
+//     }
+//   },
+//   children: 'click me'
+// }
+
+// const renderer = createRenderer(options);
+// renderer.render(vnode1, document.getElementById('app'));
+// setTimeout(()=>{
+//   renderer.render(vnode2, document.getElementById('app'));
+// },1000)
+
+
+    const vnode1 = {
+      type: "button",
+      props: {
+        id: 1,
+        onClick:[
+          () => {
+            alert('click1')
+          },
+          () => {
+            alert('click2')
+          }
+        ],
+        onMouseover:()=>{
+          alert('mouseover1')
+        }
+      },
+      children: "click me",
+    };
+
+    const vnode2 = {
+      type: "button",
+      props: {
+        onClick: () => {
+          alert("click2");
+        },
+      },
+      children: "click me",
+    };
+
+    const renderer = createRenderer(options);
+    renderer.render(vnode1, document.getElementById("app"));
+    setTimeout(() => {
+      renderer.render(vnode2, document.getElementById("app"));
+    }, 1000);
+  </script>
+</html>

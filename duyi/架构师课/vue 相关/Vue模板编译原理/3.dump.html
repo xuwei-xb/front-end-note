@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3.dump</title>
+  </head>
+  <body>
+    <script>
+      // HTML模板字符串
+      const template = `<div><p>Vue</p><p>React</p></div>`;
+
+      // 定义不同的解析状态
+      const State = {
+        initial: 1, // 初始状态
+        tagOpen: 2, // 标签开始的状态，例如遇到 '<'
+        tagName: 3, // 解析标签名称的状态
+        text: 4, // 文本节点的状态
+        tagEnd: 5, // 结束标签的初始状态，例如遇到 '</'
+        tagEndName: 6, // 解析结束标签名称的状态
+      };
+
+      // 判断字符是否为字母
+      function isAlpha(char) {
+        return (char >= "a" && char <= "z") || (char >= "A" && char <= "Z");
+      }
+
+      // 令牌化函数，将HTML字符串转换为令牌
+      function tokenize(str) {
+        let currentState = State.initial; // 初始状态
+        const chars = []; // 用于存储字符
+        const tokens = []; // 存储生成的令牌
+
+        // 循环处理字符串中的每个字符
+        while (str) {
+          const char = str[0]; // 获取当前字符
+          switch (currentState) {
+            case State.initial:
+              // 初始状态：检查当前字符
+              if (char === "<") {
+                currentState = State.tagOpen; // 如果字符是 '<'，表示标签开始
+                str = str.slice(1); // 移除已处理的字符
+              } else if (isAlpha(char)) {
+                currentState = State.text; // 如果是字母，表示文本开始
+                chars.push(char); // 将字符添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagOpen:
+              // 标签开启状态：检查当前字符
+              if (isAlpha(char)) {
+                currentState = State.tagName; // 如果是字母，表示进入标签名称状态
+                chars.push(char); // 将字符添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === "/") {
+                currentState = State.tagEnd; // 如果字符是 '/'，表示结束标签开始
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagName:
+              // 解析标签名称状态：检查当前字符
+              if (isAlpha(char)) {
+                chars.push(char); // 如果是字母，继续添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === ">") {
+                currentState = State.initial; // 如果字符是 '>'，标签名称结束，返回初始状态
+                tokens.push({ type: "tag", name: chars.join("") }); // 创建标签类型的token
+                chars.length = 0; // 清空chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.text:
+              // 解析文本节点状态：检查当前字符
+              if (isAlpha(char)) {
+                chars.push(char); // 如果是字母，继续添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === "<") {
+                currentState = State.tagOpen; // 如果字符是 '<'，表示遇到新的标签，返回标签开启状态
+                tokens.push({ type: "text", content: chars.join("") }); // 创建文本类型的token
+                chars.length = 0; // 清空chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagEnd:
+              // 结束标签的开始状态：检查当前字符
+              if (isAlpha(char)) {
+                currentState = State.tagEndName; // 如果是字母，表示进入结束标签名称状态
+                chars.push(char); // 将字符添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+            case State.tagEndName:
+              // 解析结束标签名称状态：检查当前字符
+              if (isAlpha(char)) {
+                chars.push(char); // 如果是字母，继续添加到chars数组
+                str = str.slice(1); // 移除已处理的字符
+              } else if (char === ">") {
+                currentState = State.initial; // 如果字符是 '>'，结束标签名称结束，返回初始状态
+                tokens.push({ type: "tagEnd", name: chars.join("") }); // 创建结束标签类型的token
+                chars.length = 0; // 清空chars数组
+                str = str.slice(1); // 移除已处理的字符
+              }
+              break;
+          }
+        }
+
+        // 返回生成的令牌列表
+        return tokens;
+      }
+
+      // 解析函数，将 HTML 字符串转换为 AST
+      function parse(str) {
+        // 使用tokenize函数将字符串转换为令牌
+        const tokens = tokenize(str);
+
+        // 创建一个根节点对象，用于存储解析后的HTML结构
+        const root = {
+          type: "Root",
+          children: [],
+        };
+        // 使用一个栈来跟踪当前处理的元素节点
+        const elementStack = [root];
+
+        // 当仍有令牌时，继续处理
+        while (tokens.length) {
+          // 获取当前的父元素（栈顶元素）
+          const parent = elementStack[elementStack.length - 1];
+          // 获取当前要处理的令牌
+          const t = tokens[0];
+          // 根据令牌类型处理不同情况
+          switch (t.type) {
+            case "tag":
+              // 如果是开始标签，创建一个新的元素节点
+              const elementNode = {
+                type: "Element",
+                tag: t.name,
+                children: [],
+              };
+              // 将新节点添加到父元素的子节点中
+              parent.children.push(elementNode);
+              // 将新节点压入栈中，成为下一个父节点
+              elementStack.push(elementNode);
+              break;
+            case "text":
+              // 如果是文本，创建一个文本节点
+              const textNode = {
+                type: "Text",
+                content: t.content,
+              };
+              // 将文本节点添加到当前父元素的子节点中
+              parent.children.push(textNode);
+              break;
+            case "tagEnd":
+              // 如果是结束标签，从栈中弹出当前处理的元素
+              elementStack.pop();
+              break;
+          }
+          // 移除已处理的令牌
+          tokens.shift();
+        }
+
+        // 返回解析后的根节点，它包含了整个HTML结构
+        return root;
+      }
+
+      function dump(node, indent = 0) {
+        // 获取当前节点的类型
+        const type = node.type;
+        // 根据节点类型构建描述信息
+        // 对于根节点，描述为空；对于元素节点，使用标签名；对于文本节点，使用内容
+        const desc =
+          node.type === "Root"
+            ? ""
+            : node.type === "Element"
+            ? node.tag
+            : node.content;
+
+        // 打印当前节点信息，包括类型和描述
+        // 使用重复的"-"字符来表示缩进（层级）
+        console.log(`${"-".repeat(indent)}${type}: ${desc}`);
+
+        // 如果当前节点有子节点，递归调用dump函数打印每个子节点
+        if (node.children) {
+          node.children.forEach((n) => dump(n, indent + 2));
+        }
+      }
+      // 得到模板的 AST
+      const ast = parse(template);
+      console.log(dump(ast));
+    </script>
+  </body>
+</html>

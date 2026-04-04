@@ -1,0 +1,1521 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.48.1",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@vue/runtime-core!",
+  "docComment": "",
+  "name": "@vue/runtime-core",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@vue/runtime-core!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!computed:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function computed<T>(getter: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComputedGetter",
+              "canonicalReference": "@vue/runtime-core!~ComputedGetter:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComputedRef",
+              "canonicalReference": "@vue/runtime-core!~ComputedRef:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/computed.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "getter",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "computed"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!computed:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function computed<T>(options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "WriteableComputedOptions",
+              "canonicalReference": "@vue/runtime-core!~WriteableComputedOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": "):"
+            },
+            {
+              "kind": "Reference",
+              "text": "WriteableComputedRef",
+              "canonicalReference": "@vue/runtime-core!~WriteableComputedRef:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/computed.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "computed"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!computed:function(3)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function computed<T>(getterOrOptions: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComputedGetter",
+              "canonicalReference": "@vue/runtime-core!~ComputedGetter:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "WriteableComputedOptions",
+              "canonicalReference": "@vue/runtime-core!~WriteableComputedOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ") { \n  let getter;\n  let setter;\n\n  if ("
+            },
+            {
+              "kind": "Reference",
+              "text": "isFunction",
+              "canonicalReference": "@vue/runtime-core!~isFunction"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "getterOrOptions",
+              "canonicalReference": "@vue/runtime-core!~getterOrOptions"
+            },
+            {
+              "kind": "Content",
+              "text": ")) {\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "getter",
+              "canonicalReference": "@vue/runtime-core!~getter"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "getterOrOptions",
+              "canonicalReference": "@vue/runtime-core!~getterOrOptions"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "setter",
+              "canonicalReference": "@vue/runtime-core!~setter"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "NOOP",
+              "canonicalReference": "@vue/runtime-core!~NOOP"
+            },
+            {
+              "kind": "Content",
+              "text": "\n  }\n  else { \n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "getter",
+              "canonicalReference": "@vue/runtime-core!~getter"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "getterOrOptions.get",
+              "canonicalReference": "@vue/runtime-core!~WriteableComputedOptions#get"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "setter",
+              "canonicalReference": "@vue/runtime-core!~setter"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "getterOrOptions.set",
+              "canonicalReference": "@vue/runtime-core!~WriteableComputedOptions#set"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n  }\n\n  return new "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComputedRefImpl",
+              "canonicalReference": "@vue/runtime-core!~ComputedRefImpl:class"
+            },
+            {
+              "kind": "Content",
+              "text": "(\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "getter",
+              "canonicalReference": "@vue/runtime-core!~getter"
+            },
+            {
+              "kind": "Content",
+              "text": ",\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "setter",
+              "canonicalReference": "@vue/runtime-core!~setter"
+            },
+            {
+              "kind": "Content",
+              "text": ",\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "isFunction",
+              "canonicalReference": "@vue/runtime-core!~isFunction"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "getterOrOptions",
+              "canonicalReference": "@vue/runtime-core!~getterOrOptions"
+            },
+            {
+              "kind": "Content",
+              "text": ") || !"
+            },
+            {
+              "kind": "Reference",
+              "text": "getterOrOptions.set",
+              "canonicalReference": "@vue/runtime-core!~WriteableComputedOptions#set"
+            },
+            {
+              "kind": "Content",
+              "text": "\n  )\n}"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/computed.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 3,
+          "parameters": [
+            {
+              "parameterName": "getterOrOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "computed"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!createRenderer:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function createRenderer<HostNode = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", HostElement = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ">(options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RendererOptions",
+              "canonicalReference": "@vue/runtime-core!~RendererOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<HostNode, HostElement>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    render: (vnode: any, container: any) => void;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "packages/runtime-core/src/renderer.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 8,
+            "endIndex": 9
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "HostNode",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "typeParameterName": "HostElement",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "createRenderer"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!effect:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function effect<T = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ">(\n  fn: "
+            },
+            {
+              "kind": "Content",
+              "text": "() => T"
+            },
+            {
+              "kind": "Content",
+              "text": ",\n  options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReactiveEffectOptions",
+              "canonicalReference": "@vue/runtime-core!~ReactiveEffectOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " = {}\n): "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReactiveEffect",
+              "canonicalReference": "@vue/runtime-core!~ReactiveEffect:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": " {\n  // 如果fn是一个副作用函数，则直接取其raw属性\n  if ("
+            },
+            {
+              "kind": "Reference",
+              "text": "isEffect",
+              "canonicalReference": "@vue/runtime-core!~isEffect"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "fn",
+              "canonicalReference": "@vue/runtime-core!~fn"
+            },
+            {
+              "kind": "Content",
+              "text": ")) {\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "fn",
+              "canonicalReference": "@vue/runtime-core!~fn"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "fn.raw",
+              "canonicalReference": "@vue/runtime-core!~ReactiveEffect#raw"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n  }\n  // 创建一个副作用函数\n  const effect = "
+            },
+            {
+              "kind": "Reference",
+              "text": "createReactiveEffect",
+              "canonicalReference": "@vue/runtime-core!~createReactiveEffect"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "fn",
+              "canonicalReference": "@vue/runtime-core!~fn"
+            },
+            {
+              "kind": "Content",
+              "text": ", "
+            },
+            {
+              "kind": "Reference",
+              "text": "options",
+              "canonicalReference": "@vue/runtime-core!~options"
+            },
+            {
+              "kind": "Content",
+              "text": ");\n\n  // 只有非lazy的情况，才会立即执行副作用函数\n  if (!"
+            },
+            {
+              "kind": "Reference",
+              "text": "options.lazy",
+              "canonicalReference": "@vue/runtime-core!~ReactiveEffectOptions#lazy"
+            },
+            {
+              "kind": "Content",
+              "text": ") {\n    "
+            },
+            {
+              "kind": "Reference",
+              "text": "effect",
+              "canonicalReference": "@vue/runtime-core!~effect"
+            },
+            {
+              "kind": "Content",
+              "text": "();\n  }\n\n  // 将副作用函数作为返回值返回\n  return "
+            },
+            {
+              "kind": "Reference",
+              "text": "effect",
+              "canonicalReference": "@vue/runtime-core!~effect"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/effect.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 9
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "fn",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": true
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "effect"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!h:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function h(type: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", props: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", children: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    __v_isVnode: boolean;\n    type: any;\n    props: any;\n    children: any;\n    component: null;\n    el: null;\n    key: any;\n    shapeFlags: number;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "packages/runtime-core/src/renderer.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "type",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "props",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "children",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "h"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!isRef:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function isRef<T>(r: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Ref",
+              "canonicalReference": "@vue/runtime-core!~Ref:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | unknown"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "r",
+              "canonicalReference": "@vue/runtime-core!~r"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "Ref",
+              "canonicalReference": "@vue/runtime-core!~Ref:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/ref.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "r",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "isRef"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!isRef:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function isRef(r: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "r",
+              "canonicalReference": "@vue/runtime-core!~r"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "Ref",
+              "canonicalReference": "@vue/runtime-core!~Ref:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " { \n  return "
+            },
+            {
+              "kind": "Reference",
+              "text": "Boolean",
+              "canonicalReference": "!Boolean:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "r",
+              "canonicalReference": "@vue/runtime-core!~r"
+            },
+            {
+              "kind": "Content",
+              "text": " && "
+            },
+            {
+              "kind": "Reference",
+              "text": "r",
+              "canonicalReference": "@vue/runtime-core!~r"
+            },
+            {
+              "kind": "Content",
+              "text": ".__v_isRef === true);\n}"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/ref.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "r",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "isRef"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!lis:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function lis(arr: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "number[]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "packages/runtime-core/src/renderer.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "arr",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "lis"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!normalizeClass:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function normalizeClass(value: "
+            },
+            {
+              "kind": "Content",
+              "text": "unknown"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "packages/runtime-core/src/renderer.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "value",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "normalizeClass"
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue/runtime-core!options:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RendererOptions",
+              "canonicalReference": "@vue/runtime-core!~RendererOptions:interface"
+            }
+          ],
+          "fileUrlPath": "packages/runtime-core/src/renderer.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "options",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!reactive:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function reactive<T extends "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ">(target: "
+            },
+            {
+              "kind": "Content",
+              "text": "T"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "T"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/reactive.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "target",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "reactive"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!reactive:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function reactive(target: "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ") {\n\n  if ("
+            },
+            {
+              "kind": "Reference",
+              "text": "target",
+              "canonicalReference": "@vue/runtime-core!~target"
+            },
+            {
+              "kind": "Content",
+              "text": " && ("
+            },
+            {
+              "kind": "Reference",
+              "text": "target",
+              "canonicalReference": "@vue/runtime-core!~target"
+            },
+            {
+              "kind": "Content",
+              "text": " as "
+            },
+            {
+              "kind": "Reference",
+              "text": "Target",
+              "canonicalReference": "@vue/runtime-core!~Target:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ")["
+            },
+            {
+              "kind": "Reference",
+              "text": "ReactiveFlags.IS_READONLY",
+              "canonicalReference": "@vue/runtime-core!~ReactiveFlags.IS_READONLY:member"
+            },
+            {
+              "kind": "Content",
+              "text": "]) { \n    return "
+            },
+            {
+              "kind": "Reference",
+              "text": "target",
+              "canonicalReference": "@vue/runtime-core!~target"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n  }\n\n  return "
+            },
+            {
+              "kind": "Reference",
+              "text": "createReactiveObject",
+              "canonicalReference": "@vue/runtime-core!~createReactiveObject"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "target",
+              "canonicalReference": "@vue/runtime-core!~target"
+            },
+            {
+              "kind": "Content",
+              "text": ", false, "
+            },
+            {
+              "kind": "Reference",
+              "text": "mutableHandlers",
+              "canonicalReference": "@vue/runtime-core!~mutableHandlers"
+            },
+            {
+              "kind": "Content",
+              "text": ");\n}"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/reactive.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "target",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "reactive"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!ref:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export function ref(value?: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": " { \n  return "
+            },
+            {
+              "kind": "Reference",
+              "text": "createRef",
+              "canonicalReference": "@vue/runtime-core!~createRef"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "value",
+              "canonicalReference": "@vue/runtime-core!~value"
+            },
+            {
+              "kind": "Content",
+              "text": ");\n}"
+            }
+          ],
+          "fileUrlPath": "packages/reactivity/src/ref.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "value",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": true
+            }
+          ],
+          "name": "ref"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!shouldSetAsProps:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function shouldSetAsProps(el: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", key: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", value: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "boolean"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "packages/runtime-core/src/renderer.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "el",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "key",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "value",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "shouldSetAsProps"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue/runtime-core!watch:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function watch(source: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", cb: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "WatchOptions",
+              "canonicalReference": "@vue/runtime-core!~WatchOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "packages/runtime-core/src/apiWatch.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "source",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "cb",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "watch"
+        }
+      ]
+    }
+  ]
+}

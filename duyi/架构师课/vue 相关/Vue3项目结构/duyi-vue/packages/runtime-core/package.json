@@ -1,0 +1,27 @@
+{
+  "name": "@vue/runtime-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "module": "dist/runtime-core.esm-bundler.js",
+  "types": "dist/runtime-core.d.ts",
+  "buildOptions": {
+    "name": "VueRuntimeCore",
+    "formats": [
+      "esm-bundler",
+      "esm-browser",
+      "cjs",
+      "global"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vue/reactivity": "workspace:^",
+    "@vue/shared": "workspace:^"
+  }
+}

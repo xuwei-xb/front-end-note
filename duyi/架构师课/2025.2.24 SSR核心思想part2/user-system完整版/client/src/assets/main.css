@@ -1,0 +1,34 @@
+a {
+  text-decoration: none;
+}
+
+.navigation {
+  line-height: 50px;
+  margin: 0 10px;
+  font-weight: 400;
+  color: #757575;
+}
+
+.navigation:hover {
+  text-decoration: none;
+}
+
+.my-exact-active {
+  color: #a1a0a0;
+  border-bottom: 2px solid #ccc;
+}
+
+.table {
+  margin-top: 30px;
+}
+
+tr,
+th {
+  text-align: center;
+}
+
+.glyphicon::before {
+  position: relative;
+  top: 2px;
+  margin-right: 10px;
+}

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <button id="btn1">增加</button>
+  </body>
+  <script src="index.global.js"></script>
+  <script>
+    // Fragment片段类型
+    const { effect, ref } = VueReactivity;
+    const flag = ref(false);
+
+    const isObject = (val) => {
+      return val !== null && typeof val === "object";
+    };
+    const isArray = Array.isArray;
+    const isString = (val) => {
+      return typeof val === "string";
+    };
+    const onRE = /^on[^a-z]/;
+    const isOn = (key) => onRE.test(key);
+
+    function normalizeClass(value) {
+      let res = "";
+      if (isString(value)) {
+        res = value;
+      } else if (isArray(value)) {
+        for (let i = 0; i < value.length; i++) {
+          const normalized = normalizeClass(value[i]);
+          if (normalized) {
+            res += normalized + " ";
+          }
+        }
+      } else if (isObject(value)) {
+        for (const name in value) {
+          if (value[name]) {
+            res += name + " ";
+          }
+        }
+      }
+      return res.trim();
+    }
+
+    function shouldSetAsProps(el, key, value) {
+      // 特殊处理
+      if (key === "form" && el.tagName === "INPUT") return false;
+      // 兜底
+      return key in el;
+    }
+
+    const options = {
+      createElement(tag) {
+        return document.createElement(tag);
+      },
+      // 用于设置元素的文本节点
+      setElementText(el, text) {
+        el.textContent = text;
+      },
+      // 用于在给定的 parent 下添加指定元素
+      insert(el, parent, anchor = null) {
+        //在anchor之前插入 newNode(el) 的节点。
+        // 如果为 null，newNode(el) 将被插入到节点的子节点列表末尾
+        parent.insertBefore(el, anchor);
+      },
+      patchProps(el, key, prevValue, nextValue) {
+        if (isOn(key)) {
+          const eventName = key.slice(2).toLowerCase();
+          // 定义el._vei为一个对象，这样就很方便的做到事件名称和对应函数的映射
+          const invokers = el._vei || (el._vei = {});
+          // 根据事件名称获取对应的函数
+          let invoker = invokers[key];
+          if (nextValue) {
+            if (!invoker) {
+              invoker = el._vei[key] = (e) => {
+                // 如果时间发生事件，早于事件处理函数的绑定事件，就不执行
+                if (e.timeStamp < invoker.attached) return;
+                // 如果invoker.value是数组，那么就遍历数组，依次执行
+                if (Array.isArray(invoker.value)) {
+                  invoker.value.forEach((fn) => fn(e));
+                } else {
+                  invoker.value(e);
+                }
+              };
+
+              invoker.value = nextValue;
+              // 添加attached属性，存储时间处理函数被绑定的时间
+              invoker.attached = performance.now();
+              el.addEventListener(eventName, invoker);
+            } else {
+              invoker.value = nextValue;
+            }
+          } else if (invoker) {
+            el.removeEventListener(eventName, invoker);
+          }
+        } else if (key === "class") {
+          el.className = nextValue || "";
+        } else if (shouldSetAsProps(el, key, nextValue)) {
+          // 判断该DOM Properties的类型
+          const type = typeof el[key];
+
+          // 如果是布尔类型，并且value是空字符串'',那么就是设置为true
+          if (type === "boolean" && nextValue === "") {
+            el[key] = true;
+          } else {
+            el[key] = nextValue;
+          }
+        } else {
+          // 如果key不存在在DOM Properties上，那么就是setAttribute
+          el.setAttribute(key, nextValue);
+        }
+      },
+      // 文本类型
+      createText(text) {
+        return document.createTextNode(text);
+      },
+      setText(el, text) {
+        el.textContent = text;
+      },
+      // 注释内容
+      createComment(text) {
+        return document.createComment(text);
+      },
+    };
+
+    function createRenderer(options) {
+      // 通过 options 得到操作 DOM 的 API
+      const {
+        createElement,
+        insert,
+        setElementText,
+        patchProps,
+        createText,
+        setText,
+        createComment,
+      } = options;
+
+      function patchElement(oldVNode, newVNode) {
+        const el = (newVNode.el = oldVNode.el),
+          oldProps = oldVNode.props,
+          newProps = newVNode.props;
+        // 更新Props
+        for (const key in newProps) {
+          if (newProps[key] !== oldProps[key]) {
+            patchProps(el, key, oldProps[key], newProps[key]);
+          }
+        }
+        for (const key in oldProps) {
+          if (!(key in newProps)) {
+            patchProps(el, key, oldProps[key], null);
+          }
+        }
+        // 更新子节点
+        patchChildren(oldVNode, newVNode, el);
+      }
+
+      function patchChildren(oldVNode, newVNode, container) {
+        // 新子节点的类型是文本节点
+        if (typeof newVNode.children === "string") {
+          // 如果旧子节点是一组子节点，循环遍历并且卸载
+          if (Array.isArray(oldVNode.children)) {
+            oldVNode.children.forEach((child) => {
+              unmount(child);
+            });
+          }
+
+          // 如果旧子节点是文本节点或者没有子节点，直接更新文本内容
+          setElementText(container, newVNode.children);
+        }
+        // 新子节点的类型是数组，也就是一组子节点
+        else if (Array.isArray(newVNode.children)) {
+          patchKeyedChildren(oldVNode, newVNode, container);
+        }
+        // 新子节点不存在
+        else {
+          // 如果运行到这里，说明新子节点不存在
+          // 如果旧子节点是一组子节点，循环遍历并且卸载
+          if (Array.isArray(oldVNode.children)) {
+            oldVNode.children.forEach((child) => {
+              unmount(child);
+            });
+          }
+          // 如果旧子节点是文本节点,直接清空
+          else if (typeof oldVNode.children === "string") {
+            setElementText(container, "");
+          }
+        }
+      }
+
+      function patchKeyedChildren(oldVNode, newVNode, container) {
+        const oldChildren = oldVNode.children;
+        const newChildren = newVNode.children;
+        // 确定4个索引值
+        let oldStartIdx = 0;
+        let newStartIdx = 0;
+        let oldEndIdx = oldChildren.length - 1;
+        let newEndIdx = newChildren.length - 1;
+        // 4个索引指向的vnode节点
+        let oldStartVNode = oldChildren[oldStartIdx];
+        let newStartVNode = newChildren[newStartIdx];
+        let oldEndVNode = oldChildren[oldEndIdx];
+        let newEndVNode = newChildren[newEndIdx];
+
+        while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+          // 增加两个判断分支，如果头部或者尾部节点为undefined，
+          // 说明该节点已经被处理过，直接跳到下一个位置
+          if (!oldStartVNode) {
+            oldStartVNode = oldChildren[++oldStartIdx];
+          } else if (!oldEndVNode) {
+            oldEndVNode = oldChildren[--oldEndIdx];
+          } else if (oldStartVNode.key === newStartVNode.key) {
+            // 第一步：旧子节点的头部节点oldStartVNode与新子节点的头部节点newStartVNode比较
+            // 由于都是头部节点，不需要移动真实DOM只需要更新
+            patch(oldStartVNode, newStartVNode, container);
+            // 更新双端索引值，都是头部，都是向后移动
+            oldStartVNode = oldChildren[++oldStartIdx];
+            newStartVNode = newChildren[++newStartIdx];
+          } else if (oldEndVNode.key === newEndVNode.key) {
+            // 第二步：旧子节点的尾部节点oldEndVNode与新子节点的尾部节点newEndVNode比较
+            // 新旧节点位置是一致的，不需要移动，但还是需要更新
+            patch(oldEndVNode, newEndVNode, container);
+            // 更新双端索引值，由于都是尾部，都向前移动
+            oldEndVNode = oldChildren[--oldEndIdx];
+            newEndVNode = newChildren[--newEndIdx];
+          } else if (oldStartVNode.key === newEndVNode.key) {
+            // 第三步：旧子节点的头部节点oldStartVNode与新子节点的尾部节点newEndVNode比较
+            // 首先还是需要先更新
+            patch(oldStartVNode, newEndVNode, container);
+            // 移动真实 DOM
+            // 如果旧子节点的头部节点与新子节点的尾部节点匹配
+            // 说明旧子节点对应的真实DOM节点需要移动到尾部
+            // 我们需要获取当前尾部节点的下一个兄弟节点作为锚点
+            insert(oldStartVNode.el, container, oldEndVNode.el.nextSibling);
+            // 更新双端索引值
+            oldStartVNode = oldChildren[++oldStartIdx];
+            newEndVNode = newChildren[--newEndIdx];
+          } else if (oldEndVNode.key === newStartVNode.key) {
+            // 第四步：旧子节点的尾部节点oldEndVNode与新子节点的头部节点newStartVNode比较
+            // 仍然还是需要先调用 patch 函数进行更新
+            patch(oldEndVNode, newStartVNode, container);
+
+            // 移动 DOM 操作
+            // 注意：这里是oldEndVNode.el 移动到 oldStartVNode.el 前面
+            insert(oldEndVNode.el, container, oldStartVNode.el);
+
+            // 移动DOM完成之后，需要更新双端索引值，指向下一个问题
+            oldEndVNode = oldChildren[--oldEndIdx]; // 旧子节点尾部节点向前移动一位
+            newStartVNode = newChildren[++newStartIdx]; // 新子节点头部节点向后移动一位
+          } else {
+            // 遍历旧子节点，寻找与新子节点头部newStartVNode有相同Key值的节点
+            const idxInOld = oldChildren.findIndex(
+              (node) => node.key === newStartVNode.key
+            );
+            // 如果 idxInOld > 0，说明找到了可复用节点，并且需要将其对应的真实DOM移动到头部
+            if (idxInOld > 0) {
+              const vnodeToMove = oldChildren[idxInOld];
+              // 移动之前还是先要更新
+              patch(vnodeToMove, newStartVNode, container);
+              // 将找到的节点的真实DOM，移动到头部节点oldStartVNode.el之前
+              insert(vnodeToMove.el, container, oldStartVNode.el);
+              // 真实DOM已经移动到别处，idxInOld对应的节点设置为undefined
+              oldChildren[idxInOld] = undefined;
+              // 更新完成后，newStartIdx应该移动到下一个位置
+              newStartVNode = newChildren[++newStartIdx];
+            }
+          }
+        }
+      }
+
+      function mountElement(vnode, container, anchor) {
+        // 让 vnode.el 引用真实 DOM 元素
+        const el = (vnode.el = createElement(vnode.type));
+        if (typeof vnode.children === "string") {
+          // 如果子节点是字符串，说明它是文本节点
+          setElementText(el, vnode.children);
+        } else if (Array.isArray(vnode.children)) {
+          // 如果子节点是数组，说明它是多个子节点，遍历子节点，并且通过patch挂载它们
+          vnode.children.forEach((child) => {
+            patch(null, child, el);
+          });
+        }
+
+        // 如果存在props属性，遍历props属性，并且将其设置到el上
+        if (vnode.props) {
+          for (const key in vnode.props) {
+            const value = vnode.props[key];
+            patchProps(el, key, null, value);
+          }
+        }
+
+        insert(el, container, anchor);
+      }
+
+      function patch(oldVNode, newVNode, container, anchor = null) {
+        if (oldVNode && oldVNode.type !== newVNode.type) {
+          // 如果新旧 vnode 的类型不同，则直接将旧 vnode 卸载
+          unmount(oldVNode);
+          oldVNode = null;
+        }
+        const { type } = newVNode;
+        // 如果类型是字符串，说明描述的是普通标签
+        if (typeof type === "string") {
+          // 如果旧节点不存在，就意味着是挂载，调用mountElement函数完成挂载
+          if (!oldVNode) {
+            mountElement(newVNode, container, anchor);
+          } else {
+            // 如果oldVNode存在，意味着更新，暂时省略......
+            console.log("打补丁");
+            patchElement(oldVNode, newVNode);
+          }
+        } else if (type === Text) {
+          // 如果没有旧节点，直接进行挂载
+          if (!oldVNode) {
+            // 创建文本节点
+            const el = (newVNode.el = createText(newVNode.children));
+            // 插入文本节点
+            insert(el, container);
+          } else {
+            // 如果新旧节点都存在，更新文本内容
+            const el = (newVNode.el = oldVNode.el);
+            if (newVNode.children !== oldVNode.children) {
+              setText(el, newVNode.children);
+            }
+          }
+        } else if (type === Comment) {
+          // 如果没有旧节点，直接进行挂载
+          if (!oldVNode) {
+            // 创建注释节点
+            const el = (newVNode.el = createComment(newVNode.children));
+            // 插入注释节点
+            insert(el, container);
+          } else {
+            // 如果新旧节点都存在，更新注释内容
+            const el = (newVNode.el = oldVNode.el);
+            if (newVNode.children !== oldVNode.children) {
+              setText(el, newVNode.children);
+            }
+          }
+        } else if (type === Fragment) {
+          if (!oldVNode) {
+            // 如果旧vnode不存在，那么就是将Fragment的children逐个直接挂载
+            newVNode.children.forEach((child) => patch(null, child, container));
+          } else {
+            // 如果旧vnode存在，那么就是更新Fragment的children
+            // 我们可以直接调用patchChildren函数
+            patchChildren(oldVNode, newVNode, container);
+          }
+        } else if (typeof type === "object") {
+          // todo:组件
+          console.log("组件处理");
+        } else {
+          // todo:未知类型
+          console.log("未知类型");
+        }
+      }
+
+      function unmount(vnode) {
+        // 卸载时，如果卸载的是Fragment，那么就需要递归卸载children
+        if (vnode.type === Fragment) {
+          vnode.children.forEach((child) => unmount(child));
+          return;
+        }
+
+        const parent = vnode.el.parentNode;
+        if (parent) {
+          parent.removeChild(vnode.el);
+        }
+      }
+
+      function render(vnode, container) {
+        if (vnode) {
+          // 如果新vnode存在，将其与旧vnode一起传递给patch函数，进行更新(打补丁)
+          patch(container._vnode, vnode, container);
+        } else {
+          if (container._vnode) {
+            unmount(container._vnode);
+          }
+        }
+
+        // 将vnode存储到container._vnode下，在后续的渲染中代表旧的vnode
+        container._vnode = vnode;
+      }
+
+      return {
+        render,
+      };
+    }
+
+    const Text = Symbol("Text"); // 文本类型Symbol
+    const Comment = Symbol("Comment"); // 注释类型Symbol
+    const Fragment = Symbol("Fragment"); // 片段类型Symbol
+
+    const oldVNode = {
+      type: "div",
+      children: [
+        { type: "p", children: "1", key: 1 },
+        { type: "p", children: "2", key: 2 },
+        { type: "p", children: "3", key: 3 },
+        { type: "p", children: "4", key: 4 },
+      ],
+    };
+
+    const newVNode = {
+      type: "div",
+      children: [
+        { type: "p", children: "2", key: 2 },
+        { type: "p", children: "4", key: 4 },
+        { type: "p", children: "1", key: 1 },
+        { type: "p", children: "3", key: 3 },
+      ],
+    };
+
+    const renderer = createRenderer(options);
+    // 首次挂载
+    renderer.render(oldVNode, document.getElementById("app"));
+
+    // 1秒后更新
+    setTimeout(() => {
+      renderer.render(newVNode, document.getElementById("app"));
+    }, 1000);
+  </script>
+</html>

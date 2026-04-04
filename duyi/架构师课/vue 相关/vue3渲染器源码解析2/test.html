@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <body>
+    <div id="layer1"></div>
+  </body>
+</body>
+<script>
+  const vnode = {
+    type:"div",
+    props:{
+        onClick:()=>{
+            console.log("hello");
+        }
+    },
+    children:"hello"
+}
+
+function renderer(vnode, container){
+  // 使用vnode.tag作为标签名创建DOM元素
+  const el = document.createElement(vnode.type);
+  // 遍历vnode.data，将属性、事件添加到DOM元素上
+  for(let key in vnode.props){
+    // 如果以on开头，说明是事件
+    if(/^on/.test(key)){
+      el.addEventListener(
+        key.slice(2).toLowerCase(), 
+        vnode.props[key]);
+    }
+  }
+
+  if(typeof vnode.children === 'string'){
+    // 如果子节点是字符串，说明它是文本节点
+    el.appendChild(document.createTextNode(vnode.children));
+  }else if(Array.isArray(vnode.children)){
+    // 如果子节点是数组，说明它是子节点数组
+    vnode.children.forEach(child => {
+      // 递归渲染子节点
+      renderer(child, el);
+    });
+  }
+  // 将DOM元素添加到容器中
+  container.appendChild(el);
+}
+  
+renderer(vnode, document.getElementById('layer1'));
+</script>
+</html>
