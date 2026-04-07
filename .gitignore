@@ -1,0 +1,20 @@
+# macOS 系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# macOS 资源分支
+._*
+
+# macOS 文件夹图标
+Icon?
+
+# .DS_Store 文件
+.DS_Store
+
+# Thumb 缩略图
+._*
+
+# 文件可能无法存储在云存储服务
+.icloud
