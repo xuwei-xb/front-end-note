@@ -1,6 +1,6 @@
 # Electron 学习笔记
 
-## 第一章 Electron快速入门
+## Electron快速入门
 
 ### 1.1 Electron基本介绍
 
@@ -1320,34 +1320,7 @@ window.myIsolatedAPI.doSomethingElse(); // 输出："在隔离世界中做了些
 
 ---
 
-## 第二章 实战案例：构建Markdown编辑器（待补充）
-
-本章会从原理着手：
-
-- Markdown原理
-  - 抽象语法树
-  - 常见的 Markdown 实现原理
-- 使用 Electron 构建 Markdown 编辑器
-  - 打开一个 Markdown 文档
-  - 保存文档
-  - 拖动一个文档到编辑器
-  - ...
-
----
-
-## 第三章 实战案例：构建音乐播放器（待补充）
-
-同样是通过不断迭代的方式，一步一步完善音乐播放器。
-
-- 原生网页版音乐播放器
-- AmplitudeJS迭代音乐播放器
-- Electron版本音乐播放器
-- Vite、Vue、Electron搭建一个项目，继续迭代音乐播放器
-- Electron-Vite 迭代音乐播放器
-
----
-
-## 第四章 Electron开发进阶
+## Electron开发进阶
 
 ### 4.1 应用打包（macOS/Windows）
 
@@ -2244,36 +2217,3 @@ init({
 ```
 
 ---
-
-## 第五章 底层原理（待补充）
-
-这一章主要是聚焦于 Electron 底层一些比较重要的特性，针对一些非常重要的代码片段进行剖析。
-
-- Electron 源码目录的结构
-- Electron 如何做到跨平台
-- Electron 本身 API 是如何为开发者提供支持的
-- 进程间是如何通信
-- ...
-
-还会包含一些和 Electron 相关的周边工具的原理剖析
-
-- electron-builder
-- electron-updater
-
-以及还会介绍一些看似和 Electron 工程没有关系，但是其实是比较重要的一些原理。
-
-- V8引擎执行的原理
-- 垃圾回收相关原理
-
----
-
-## 第六章 Electron常见开发需求（待补充）
-
-- 点对点通信
-- 拼写检查
-- 窗口池
-- 原生文件的拖放
-- 最近文件列表
-- 屏幕截图
-
-该章节是一个长期更新的章节。
