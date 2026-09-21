@@ -1,4 +1,0 @@
-expect.extend({
-  ...require('./reactTestMatchers'),
-});
-
