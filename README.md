@@ -33,7 +33,7 @@
 [优化指南](performance/前端性能优化完全指南.md) · [方法论](performance/前端性能优化方法论.md) · [二进制与性能](performance/二进制与性能优化.md)
 
 ### 🏛 架构 / 设计 / 方法论 · [`architecture/`](architecture/)
-[原子化架构](architecture/前端原子化架构详解.md) · [大型项目构建](architecture/如何构建一个大型项目.md) · [设计模式](architecture/设计模式.md) · [跨端选型](architecture/跨端框架选型指南.md) · [API 可扩展性](architecture/API的可扩展性设计.md) · [文档协同](architecture/文档协同.md) · [架构师思维](architecture/架构师思维.md)
+[原子化架构](architecture/前端原子化架构详解.md) · [大型项目构建](architecture/如何构建一个大型项目.md) · [设计模式](architecture/设计模式.md) · [跨端选型](architecture/跨端框架选型指南.md) · [API 可扩展性](architecture/API的可扩展性设计.md) · [文档协同](architecture/文档协同.md) · [架构师思维](architecture/架构师思维.md) · [**Agent 项目架构设计**](architecture/Agent项目架构设计.md)（六层架构 / 编排 / 工具 / 记忆 / 前端 / 部署 / 安全） · [**Agent 宿主平台剖析（以 WorkBuddy 为例）**](architecture/Agent宿主平台剖析-以WorkBuddy为例.md)（拿真实产品反推大脑搭建）
 
 ### 📊 监控 / 可观测性 · [`monitoring/`](monitoring/)
 [监控概况](monitoring/前端服务监控概况.md) · [用户行为埋点](monitoring/用户行为收集与埋点.md) · [数据上报](monitoring/数据上报.md) · [错误监控](monitoring/错误监控.md) · [页面性能监控](monitoring/页面性能监控.md)

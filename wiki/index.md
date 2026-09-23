@@ -1,6 +1,6 @@
 # Wiki 索引（统一内容目录）
 
-> 总页面数: 约 222（md，含 122 个拆分章节；不含 `tools/` 练习稿） | 最后更新: 2026-09-23
+> 总页面数: 约 224（md，含 122 个拆分章节；不含 `tools/` 练习稿） | 最后更新: 2026-09-23
 > 模式：笔记层（现有目录）＋ 连接层（本 `wiki/`）。规则见 [[SCHEMA]]。
 
 ## 入口枢纽
@@ -55,6 +55,8 @@
 ### 架构 / 设计 · [[architecture/]]
 - [[architecture/前端原子化架构详解]] 📒 · [[architecture/如何构建一个大型项目]] 📒 · [[architecture/设计模式]] 📒
 - [[architecture/跨端框架选型指南]] 📒 · [[architecture/API的可扩展性设计]] 📒 · [[architecture/文档协同]] 📒 · [[architecture/架构师思维]] 📒
+- [[architecture/Agent项目架构设计]] 📒（AI Agent 系统设计：判型 / 六层架构 / 编排 / 工具 / 记忆 / 接入 / 部署 / 评测 / 安全）
+- [[architecture/Agent宿主平台剖析-以WorkBuddy为例]] 📒（以真实 Agent 宿主反推方法论：单主脑循环 + 按需派子 Agent · Skill/Connector 分离 · 三层记忆 · 分级路由 · 护栏前置）
 
 ### 监控 / 可观测性 · [[monitoring/]]
 - [[monitoring/前端服务监控概况]] 📒 · [[monitoring/用户行为收集与埋点]] 📒 · [[monitoring/数据上报]] 📒 · [[monitoring/错误监控]] 📒 · [[monitoring/页面性能监控]] 📒
@@ -88,6 +90,7 @@
 - 设计模式：[[architecture/设计模式]] ↔ [[wiki/topics/设计模式总览]]
 - 微前端：[[engineering/qiankun]] ↔ [[wiki/topics/微前端与qiankun]] ↔ [[architecture/跨端框架选型指南]]
 - SSR：[[engineering/SSR架构核心思想解读]] ↔ [[wiki/topics/SSR架构]] ↔ [[performance/前端性能优化完全指南]]
+- AI Agent 架构：[[architecture/Agent项目架构设计]] ↔ [[architecture/Agent宿主平台剖析-以WorkBuddy为例]]（实例反推）↔ [[interview/许威面试题汇总-前后端AI]]（AI 章节问答）↔ [[engineering/框架设计]]（插件化）↔ [[architecture/如何构建一个大型项目]]
 
 ## 类型图例
 📒 笔记 · 📑 索引 · 🎯 面试 · 🧪 练习（`tools/` 不计入）

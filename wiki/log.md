@@ -24,3 +24,13 @@
   - **事实更正**：9.1 表格 Vue2「IE 兼容」`IE8+` → `IE9+`（Vue 2 不支持 IE8 及以下）
   - **版本过时**：补注 Vue 2 已于 2023-12-31 EOL
   - **表述细化**：9.3.1 注释「会报错」→「无法访问 v-for 作用域变量，编译期报错」
+
+## 2026-09-23（新增 AI Agent 架构笔记）
+- ✨ 新增 `architecture/Agent项目架构设计.md`（约 280 行）：AI Agent 系统设计方法论——判型（Workflow/Agent/混合）→ 六层架构（接入/编排/能力/上下文/模型/观测）→ State 设计三规则与循环终止 → 工具契约与 S/M 三条接入路线 + 权限分级 → 四层记忆与上下文预算 → 模型分级路由 → 前端接入（流式/可视化/画布/会话）→ 后端部署（checkpoint/并发隔离/任务队列）→ 观测评测 → 安全合规 → P0–P3 落地顺序 → 项目骨架 → 12 条反模式。
+- 🔗 与 [[interview/许威面试题汇总-前后端AI]] 的 AI 问答互补（那边「怎么答」，这边「怎么设计」；术语口径统一：LangGraph State/reducer/checkpoint/interrupt/thread_id、MCP 三原语、Skill 三层结构、ReAct/Plan-and-Execute/Reflection/Multi-Agent、fetch+ReadableStream、底座+插槽+插头）。
+- ♻️ 登记 README「架构 / 设计 / 方法论」、`wiki/index.md`（总页数 222 → 约 223，新增「AI Agent 架构」交叉引用链：architecture ↔ interview ↔ engineering/框架设计 ↔ architecture/如何构建一个大型项目）。
+
+## 2026-09-23（新增 WorkBuddy 宿主剖析笔记）
+- ✨ 新增 `architecture/Agent宿主平台剖析-以WorkBuddy为例.md`（约 150 行）：拿真实 Agent Host 当标本，对照 [[architecture/Agent项目架构设计]] 六层方法论逐层反推「大脑怎么搭」。落点：接入层（对话入口 + tool_use 纪律 + mode 切换）、编排层（单主脑循环 + 按需派 Explore/Plan/通用子 Agent + Task 清单）、能力层（Skill=怎么做 / Connector=用什么做 / Expert 分离）、记忆（三层 + 显式写入）、模型层（分级路由 + 专用模型 + runtime 隔离）、安全（护栏前置）。提炼三条核心结论 + 八节「方法论 ↔ WB 落点 ↔ 面试讲法」反查表。
+- 🔗 [[architecture/Agent项目架构设计]] 关联段补回链；README / wiki/index.md 登记（总页数 223 → 约 224，交叉引用链补该文件）。
+- 定位澄清（对话确认）：WorkBuddy 属「Agent 宿主平台 / Agent OS 层产品」，非框架（LangGraph）非编排平台（Dify/Coze）；同类为 Cursor / Claude Desktop。基础设施层代表 LangSmith = 可观测/评测平台（trace + eval + 成本看板），与笔记第八节对应。
