@@ -18,3 +18,5 @@ Icon?
 
 # 文件可能无法存储在云存储服务
 .icloud
+
+.workbuddy/*
