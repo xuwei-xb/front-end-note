@@ -1,3 +1,8 @@
+> 类型: 笔记 · 更新: 2026-09-23
+> 关联: 待补
+>
+> ---
+
 # React 核心知识体系与面试图谱
 
 ---
@@ -659,3 +664,8 @@ const AsyncComponent = lazy(() => import('./Component'));
 </Suspense>
 ```
 **适用场景**：加载大组件、路由懒加载
+
+## 关联
+- 虚拟DOM: [[wiki/topics/虚拟DOM综述]]（Fiber 任务分片）
+- 响应式: [[wiki/topics/Vue2与Vue3响应式差异]]（对比 Vue 响应式）
+

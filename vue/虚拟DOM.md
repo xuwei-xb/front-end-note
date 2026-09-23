@@ -1,3 +1,8 @@
+> 类型: 笔记 · 更新: 2026-09-23
+> 关联: 待补
+>
+> ---
+
 ## 二、虚拟DOM
 
 ### 2.1 什么是虚拟DOM
@@ -78,3 +83,7 @@ export const enum PatchFlags {
 ```
 
 ---
+
+## 关联
+- 综述: [[wiki/topics/虚拟DOM综述]] · 性能: [[wiki/topics/性能优化总览]]
+- 跨框架: [[react/React_核心知识体系]]（Fiber 任务分片）

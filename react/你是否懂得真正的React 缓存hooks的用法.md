@@ -1,3 +1,8 @@
+> 类型: 笔记 · 更新: 2026-09-23
+> 关联: 待补
+>
+> ---
+
 # 你是否真正懂得 React 的 memoization 机制
 
 > 提到 memoization 机制，大家都会跟 `useMemo`、`useCallback` 和 `React.memo` 联系起来。

@@ -1,0 +1,27 @@
+> 类型: 章节 · 来源: [[vue/monorepo工程创建]] · 更新: 2026-09-23
+>
+> ---
+
+## 全局tsconfig.json配置
+
+```typescript
+{
+  "compilerOptions": {
+    "lib":["ESNext", "DOM"],
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true, 
+    "skipLibCheck": true,
+    "rootDir": ".", /* 指定输出文件目录(用于输出)，用于控制输出目录结构 */
+    "baseUrl": ".", /* 解析非相对模块的基地址，默认是当前目录 */
+    "paths": { /* 路径映射，相对于baseUrl */
+      "@vue/*": ["packages/*/src"]
+    }
+  }
+}
+```

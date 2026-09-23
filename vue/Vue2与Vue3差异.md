@@ -1,4 +1,14 @@
+> 类型: 笔记 · 更新: 2026-09-23
+> 关联: 待补
+>
+> ---
+
 ## 九、Vue2与Vue3核心差异
+
+> 📌 勘误与补充(2026-09-23)
+> - **（版本过时）** Vue 2 已于 **2023-12-31 EOL**（官方停止维护），新项目建议直接使用 Vue 3。
+> - **（事实更正）** 9.1 表格 Vue2「IE 兼容」原写 `IE8+`，更正为 `IE9+`（Vue 2 不支持 IE8 及以下，IE9 需 polyfill）。
+> - **（表述细化）** 9.3.1 原注「Vue3: v-if 优先级更高，会报错」细化为：v-if 无法访问 v-for 作用域变量 → 编译期报错。
 
 ### 9.1 响应式系统
 
@@ -8,7 +18,7 @@
 | **属性添加/删除** | 需要$set/$delete | 自动响应式 |
 | **数组下标修改** | 需要$set | 直接支持 |
 | **Map/Set支持** | 不支持 | 支持 |
-| **IE兼容** | IE8+ | 不支持IE |
+| **IE兼容** | IE9+ | 不支持IE |
 
 ### 9.2 API风格
 
@@ -29,7 +39,7 @@
 <!-- Vue2: v-for优先级更高 -->
 <div v-for="item in list" v-if="item.active"></div>
 
-<!-- Vue3: v-if优先级更高，会报错 -->
+<!-- Vue3: v-if优先级更高，无法访问 v-for 作用域变量，编译期报错 -->
 <!-- 需要使用template包裹 -->
 <template v-for="item in list" :key="item.id">
   <div v-if="item.active">{{ item.name }}</div>
@@ -86,3 +96,7 @@ app.mount('#app')
 | **自定义渲染器** | 可创建自定义渲染器 |
 
 ---
+
+## 关联
+- 对比: [[wiki/topics/Vue2与Vue3响应式差异]] · 性能: [[wiki/topics/性能优化总览]]
+- 虚拟DOM: [[wiki/topics/虚拟DOM综述]]
