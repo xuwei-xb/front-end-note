@@ -42,7 +42,7 @@
 [webapp 常见问题](mobile/webapp常见问题.md) · [移动端面试题](mobile/移动端面试题汇总.md) · [Electron](mobile/Electron%20笔记.md)
 
 ### 🎯 面试 / 综合 · [`interview/`](interview/)
-[许威面试题汇总（前端+后端+AI）](interview/许威面试题汇总-前后端AI.md)
+[许威面试题汇总（前端+后端+AI）](interview/许威面试题汇总-前后端AI.md) · [**自建 Agent 面试题库**](interview/自建Agent面试题库.md)（132 题 / 12 维度：架构 / 算法 / 记忆 / 工具与 MCP / 多 Agent / RAG / 容错 / 评测 / 安全 / 可观测 / 部署 / 系统设计）· [**Agent 面试题学习线路**](interview/Agent面试题学习线路.md)（9 套从浅往深 · 必背/加分分级 + 面试话术）
 
 ### 🧪 工具 / 演示（练习稿，非系统笔记）· [`tools/`](tools/)
 `index.js` · `js-tools.js` · Promise 练习 · react-16 简化版 · vue3 渲染器源码解析演示 · 模板编译演示

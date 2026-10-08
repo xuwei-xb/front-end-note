@@ -1,6 +1,6 @@
 # Wiki 索引（统一内容目录）
 
-> 总页面数: 约 224（md，含 122 个拆分章节；不含 `tools/` 练习稿） | 最后更新: 2026-09-23
+> 总页面数: 约 226（md，含 122 个拆分章节；不含 `tools/` 练习稿） | 最后更新: 2026-10-08
 > 模式：笔记层（现有目录）＋ 连接层（本 `wiki/`）。规则见 [[SCHEMA]]。
 
 ## 入口枢纽
@@ -55,7 +55,7 @@
 ### 架构 / 设计 · [[architecture/]]
 - [[architecture/前端原子化架构详解]] 📒 · [[architecture/如何构建一个大型项目]] 📒 · [[architecture/设计模式]] 📒
 - [[architecture/跨端框架选型指南]] 📒 · [[architecture/API的可扩展性设计]] 📒 · [[architecture/文档协同]] 📒 · [[architecture/架构师思维]] 📒
-- [[architecture/Agent项目架构设计]] 📒（AI Agent 系统设计：判型 / 六层架构 / 编排 / 工具 / 记忆 / 接入 / 部署 / 评测 / 安全）
+- [[architecture/Agent项目架构设计]] 📒（AI Agent 系统设计：判型 / 六层架构 / 编排 / 工具 / 记忆 / 接入 / 部署 / 评测 / 安全 / 跨案例同构）
 - [[architecture/Agent宿主平台剖析-以WorkBuddy为例]] 📒（以真实 Agent 宿主反推方法论：单主脑循环 + 按需派子 Agent · Skill/Connector 分离 · 三层记忆 · 分级路由 · 护栏前置）
 
 ### 监控 / 可观测性 · [[monitoring/]]
@@ -67,7 +67,9 @@
 - [[mobile/Electron 笔记]] 📒
 
 ### 面试 / 综合 · [[interview/]]
-- [[interview/许威面试题汇总-前后端AI]] 🎯
+- [[interview/许威面试题汇总-前后端AI]] 🎯（95 题；第十一章 Agent 系统设计深挖 16 题精选）
+- [[interview/自建Agent面试题库]] 🎯（132 题完整版 / 12 维度：架构设计 · 核心算法 · 上下文与记忆 · 工具与 MCP · 多 Agent · RAG · 报错容错 · 评测 · 安全 · 可观测成本 · 部署运维 · 系统设计）
+- [[interview/Agent面试题学习线路]] 🎯（9 套从浅往深路线 · 必背/加分/可跳过三级分级 · 每套面试话术 + 跨套追问 + 临考 12 题最小集）
 - [[interview/面试索引]] 📑（串联全部面试资料）
 
 ## 已拆分巨型文件（索引 + 子目录，2026-09-23）
@@ -90,7 +92,7 @@
 - 设计模式：[[architecture/设计模式]] ↔ [[wiki/topics/设计模式总览]]
 - 微前端：[[engineering/qiankun]] ↔ [[wiki/topics/微前端与qiankun]] ↔ [[architecture/跨端框架选型指南]]
 - SSR：[[engineering/SSR架构核心思想解读]] ↔ [[wiki/topics/SSR架构]] ↔ [[performance/前端性能优化完全指南]]
-- AI Agent 架构：[[architecture/Agent项目架构设计]] ↔ [[architecture/Agent宿主平台剖析-以WorkBuddy为例]]（实例反推）↔ [[interview/许威面试题汇总-前后端AI]]（AI 章节问答）↔ [[engineering/框架设计]]（插件化）↔ [[architecture/如何构建一个大型项目]]
+- AI Agent 架构：[[architecture/Agent项目架构设计]] ↔ [[architecture/Agent宿主平台剖析-以WorkBuddy为例]]（实例反推）↔ [[interview/许威面试题汇总-前后端AI]]（AI 章节问答 + 第十一章深挖）↔ [[interview/自建Agent面试题库]]（132 题完整版）↔ [[interview/Agent面试题学习线路]]（9 套学习路线）↔ [[engineering/框架设计]]（插件化）↔ [[architecture/如何构建一个大型项目]]
 
 ## 类型图例
 📒 笔记 · 📑 索引 · 🎯 面试 · 🧪 练习（`tools/` 不计入）
